@@ -1,0 +1,88 @@
+ZUUL API GATEWAY ( Microservice )
+
+1. How does a client remember so may API endpoints for all other microservices.
+     Each microservice also may have some common functionalities like :
+        - Security / Auth / Logging which becomes repetative
+        - Repetative functionalities can be provided by a common Gateway.
+  
+2. Client will only call gateway , and it will will take care of rightful service redirection.
+ 
+ 
+3. Client --> Zuul - API Gateway --> Eureka --> Zuul --> EmployeeService/RoleService/.....
+
+4. Client calls Zuul like a proxy.
+5. Zuul itself being a microservice can be scalable.
+
+6. Spring initializer components:
+    - actuator
+    - devtools
+    - eureka discovery
+    - zuul
+
+7. pom.xml  ( custom versions )
+   spring cloud -> Dalston.RELEASE
+   spring parent -> 1.5.2.RELEASE
+   
+   change artifact :
+     1. spring-cloud-starter-netflix-eureka-client   to   spring-cloud-starter-eureka
+     2. spring-cloud-starter-netflix-zuul   to  spring-cloud-starter-zuul
+   
+ 8.@EnableZuulProxy in the spring boot main application
+   @EnableDiscoveryClient   -  to register itself with eureka
+   
+ 9. update application.properties:
+    spring.application.name=zuul-edge-server
+    server.port=9090
+   eureka.client.service-url.default-zon=http://localhost:8761/eureka/
+   
+   
+   ########################## Module 9 - Part 2 #########################
+   
+   1. Zuul Api Gateway to implement a cross cutting functionaloty like Logging Filter.
+     i) ZuulLoggingFilter extends ZuulFilter 
+           This bean gets auto registered as a filter bean as it extends ZuulFilter.
+        4 override methods from ZuulFilter:
+         boolean shouldFilter() - true/false
+         run() - actual implementation
+         String filterType() : pre/post/error/route
+         filterOrder() : if other filters are present whats the order of this one.   
+        
+           
+   2. To hit the URL via API Gateway
+        http://localhost:9090/employee-service/employee/1000
+        
+        http://localhost:<zuulPort>/<registered spring application name>/{context : employee/1000}
+   
+  ########################## Module 9 - Part 3 #########################
+  
+ 1. In the above Use Case so far:
+     
+     Client--> Zuul API Gateway --> Role / Employee / EmpPayroll
+     
+     Zuul was put with a cross cutting functionality of logging filter interfacing all client requests passing via Zuul.
+     
+     @FeignClient(name="employee-service")
+     @RibbonClient(name="employee-service")
+     public interface EmployeeService {
+	
+	// without zuul we dont need to prefix the app name. , the feign client directly links with the service.
+	@GetMapping("/employee/{empId}")  
+	public EmployeePayroll getEmployeeDetails(@PathVariable("empId") Long empId);
+     
+     
+ 2. Another Use Case:
+      When EmpPayrollService internally calls EmployeeService and RoleService , we were using feign netflix rest interface.
+      But now we want that request also to go via zuul.
+      
+      
+      @FeignClient(name="zuul-edge-server")
+	  @RibbonClient(name="employee-service")
+     public interface EmployeeService {
+	   	@GetMapping("/employee-service/employee/{empId}")  
+	       public EmployeePayroll getEmployeeDetails(@PathVariable("empId") Long empId);
+              {
+              
+    
+      
+
+

@@ -1,0 +1,73 @@
+##### Distributed Tracing - MOdule 10 - Part 1 ################
+
+1.Spring Cloud Sleuth
+  - supports distributed tracing by adding unique IDs to logs
+  - Adds 2 types of IDs
+      service-name
+      TraceID ( remains same through-out out the request across diff microservices )
+      SpanID  ( basic unit of work )
+      ZIPKIN enabled 
+      
+      
+2.Add the dependency :
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-sleuth</artifactId>
+    
+    automatically all spring boot applications log get attached with[ spanID/TraceID]
+    
+3. E.g :
+    [employee-service,ssddffwefwef,qweqwfdf4df,false]  : false is to add to ZIPKIN
+    
+########## Distributed Tracing - Module 10 - Part 2 ################
+
+
+MicroService1 | microservice2 | ....
+   all logs in one single place to easily debug rater thans checking each microservice's own logs.
+   
+1. ZIPKIN is the solution.. ZIPKIN Server
+    i) default ZIPKIN server Port : 9411  
+    ii) has a UI module. 
+    
+2. Spring Sleuth will now connect to the ZIPKIN server and push all logs to the same
+
+3. Spring initializr 
+      - Config Client
+      - Zipkin UI ( add manually in POM not available in initializr )
+      - Zipkin Server ( add manually in POM not available in initializr )
+      
+4. @SpringBootApplication
+   @EnableZipkinServer
+   
+5. http://localhost:9411/zipkin  { UI URL}   
+
+
+########## Distributed Tracing - Module 10 - Part 3 ################
+  Enable all microservices to send logs from slueth to zipkin server
+  
+  1. Add dependency to each microservice :
+      <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-sleuth-zipkin</artifactId>
+		</dependency>
+  
+  2. In the main Application class add the following
+   
+       @Bean
+       public AlwaysSampler alwaysSampler()
+        {
+          return new AlwaysSampler()
+           } 
+           
+           
+      do this to zuul-edge-server as well..
+       
+  3. application.properties:
+       <spring-app-name>.host.connect-timeout-millis=5000
+       specially for zuul API gateway server.
+        
+    
+.
+ 
+    
+    
+    

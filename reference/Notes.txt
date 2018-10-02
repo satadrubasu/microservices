@@ -1,0 +1,110 @@
+
+Microservices Design Principles
+
+1. High Cohesion
+    Single thing done well / Single Focus.
+    Keep splitting functions until it has only one reason to change.
+    
+2.Approach: Autonomous
+   - Loosely coupled
+      Communication over network
+     Synchronous - ( wait for reply but sometimes we want to let the calling service continue )
+     Asynchronus - ( More decoupled 
+          Publish events instead of making a direct call to other service.
+          Events are pulled from Message Queue and Consumer Service publishes back the response as a event
+          
+          
+     Avoid Client Libraries ( which can cause interacting services to get tied to the library implementation 
+     Contracts between Services
+        Better to have internal Service Model and Exchange model data
+        Agreed input/output contracts
+        
+     Avoid Chatty exchanges between services
+     Sharing Between services
+         Avoid Database if possible
+         Keep each microservice have its own database
+         
+ 3. Ownership of microservice.
+       - Team ownership
+       -Team to have their own microservice contracts
+       - Versioning
+            Backward compatibility
+            Integration tests
+            Version strategy ( Major.Minor.patch )
+                  Major version updates when not backward compatible
+                  Old version requests can have righful redirection if possible.
+                  
+  4. Business Domain Centric
+       - review sub groups of business functions
+       - review benefits of splitting further
+       - Agree common language
+       
+  5. Resilience ( Failure handling for any dependent/downstream service)
+        -  Design for known failures
+        - Failure of external services
+        - Degrade functionality on failure detection.
+        - Design system to fail fast 
+        - Standard timeouts
+  6. Observable ( Cenrtalized monitoring for all interacting Microservices to create the entire applications )
+       Real time monitoring 
+       Centralized Logging  / Logging Pattern
+       Traceable correlation ID ( Service Name / Instance ID )
+       
+  7. Automation:
+       Continuous Integration Tools
+       Unit and Integration Tests
+       Ensure Quality of checkin (Quality Gates)
+       Continuous Deployment Tools ( CI Tools)
+       
+  =============== Technologies for Microservices ===================
+  
+  1) Synchronous - HTTP/Rest / RPC(not greatly recommended) / Rest with HATEOS(return links)
+                  
+  2) Asynchronous -  Event Based communication
+                     Message queueing protocol
+                     Message stored by message broker
+                     RabbitMQ
+                     
+  3) Hosting Platforms 
+                  - Virtualization
+                  - PAAS ( Azure/AWS etc )
+                  - Containers ( less resources than VM ) Docker/Rocker 
+                  
+  4) Registering and Discovery
+         - Where : Host,port and version
+         - Service registry database
+         - Register on startup & deregister on failure
+         
+  5) Monitoring Technologies 
+              - Centralized tools
+                  Load Balancers / New Relic / Nagios
+              - Real time monitornig ( AppDynamics etc )
+              
+  6) Logging Technologies
+              - Portal for centralized logging data
+              - Elastic Log/Log Stash/Kibala/Splunk
+              - Structured Logging
+              
+  7) Microservices Performance ( Scaling & Caching )
+         Scaling - horizontal/vertical
+               PAAS auto scaling options
+               Virtualization and containers
+               Load Balancer ( API Gateway )
+               
+         Caching - Caching to reduce.
+               Considerations : data lek - right state of cache against data
+  
+  8) API Gateway :
+         Load Balancing
+         Caching
+         Central entry point
+         Exposing services to client
+         Service Registry database
+         Security
+         Dedicated Security Service
+         Cenrtal security vs Service Security
+         
+          
+          
+       
+         

@@ -1,0 +1,30 @@
+Module Summary Notes practice
+===============================
+
+Module 1: Main Microservices Architecture and tools needed
+   
+
+Module 2:  Create microservice -> employee-service 
+     
+Module 3: Create microservice -> role-service
+Module 4: Create composite microservice -> employee-payroll-service
+Module 5: FEIGN Template ( Netflix ) Rest API calls
+Module 6: RIBBON for Load balancing
+Module 7: EUREKA for Naming Discovery Servier
+Module 8: ZUUL API Gateway
+          SLEUTH - How API gateway can also provide cross-cutting functionalities like Logging filters ( pre )
+Module 9: ZIPKIN server for Distributed Tracing
+          SLEUTH - SERVICE_NAME,SPANID,CORRELATIONID,false
+Module 10: HYSTRIX for Fault tolerance
+Module 11: Spring Cloud Config Server
+           Spring Cloud BUS
+
+           
+           
+           
+           Order of Spawning the Microservices for all purposes
+ 1. EUREKA Discovery Naming Server
+ 2. Zuul - API Gateway Server
+ 3. SpringCloud ConfigServer
+ 4. ZIPKIN - Log Tracing Server
+ 

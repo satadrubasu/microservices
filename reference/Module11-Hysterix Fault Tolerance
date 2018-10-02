@@ -1,0 +1,44 @@
+
+
+
+
+Some Microservices might be down 
+
+EmployeePayroll  |  Employee  | Role
+
+Say Employee is down ?
+
+We can provide a default way of handling such exceptions
+
+HYSTERIX will help create a fault tolerant application.
+
+
+1. Add dependency for Hysterix:
+   o.s.c
+   spring-cloud-starter-hysterix
+   
+2. In the Controller enable annotation
+   @EnableHystrix
+   @RestController
+   
+3. How to define what needs to be done during exception scenarios
+
+  a) Try to create a scenario for Runtime Exception
+
+  @HysterixCommand(fallbackMethod="fallBackEmployeeDetails")
+  @GetMapping("/employee/fault-tolerance")
+  public Employee getDetails()
+   {
+      throw new RuntimeException("Check Hysterix behaviour");
+     }
+     
+   b) create the fallback method defined and link with the annotation as above
+     public Employee fallBackEmployeeDetails()
+      {
+        return new Employee("firstname",.....);
+        
+     
+     
+     
+   public Employee
+   
