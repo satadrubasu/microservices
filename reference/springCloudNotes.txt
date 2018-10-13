@@ -1,0 +1,24 @@
+Microservices scaffolding with Spring cloud
+ - released March 2015
+ - build common distributed systems patterns
+ - open source
+ - optimized for spring apps
+ - run anywhere
+ - includes Netflix OSS tech stack
+
+Catalog of Spring Cloud projects
+ 1. Spring Cloud Config   - GIT backed configuration server
+ 2. Spring cloud Netflix  - Suite for Service Discovery , routing , availibility
+ 
+ 3. Spring Cloud Consul   - Service discovery with Consul
+ 4. Spring Cloud Security - Simplify OAuth 2.0 flows
+ 
+ 5. Spring Cloud Sleuth - Distributed tracing
+ 6. Spring Cloud Stream - Message Bus abstraction
+ 7. Spring Cloud task   - Short lived single task microservice
+ 
+ 8. Spring Cloud Dataflow - Orchestration of data microservices
+ 9. Spring Cloud Zookeeper - Service discovery and configuration
+ 
+ 10.Spring Cloud for AWS - Expose core AWS services 
+ 11. Spring Cloud Contract - Stubs for service contracts
