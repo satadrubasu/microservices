@@ -18,7 +18,7 @@
 3. E.g :
     [employee-service,ssddffwefwef,qweqwfdf4df,false]  : false is to add to ZIPKIN
     
-########## Distributed Tracing - Module 10 - Part 2 ################
+########## Distributed Tracing - Module 10 - Part 2 ( Create the ZIP KIN Server )################
 
 
 MicroService1 | microservice2 | ....
@@ -45,29 +45,37 @@ MicroService1 | microservice2 | ....
   Enable all microservices to send logs from slueth to zipkin server
   
   1. Add dependency to each microservice :
-      <dependency>
+              <dependency>
+		   <groupId>org.springframework.cloud</groupId>
+		   <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+	      </dependency>
+	      <dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-sleuth-zipkin</artifactId>
+			<artifactId>spring-cloud-starter-zipkin</artifactId>
 		</dependency>
   
   2. In the main Application class add the following
    
-       @Bean
-       public AlwaysSampler alwaysSampler()
-        {
-          return new AlwaysSampler()
-           } 
+     i)  @Bean
+         public AlwaysSampler alwaysSampler()
+           {  return new AlwaysSampler()
+            } 
            
-           
-      do this to zuul-edge-server as well..
+         do this to zuul-edge-server as well..
        
+     ii) Alternately use the application.properties with :
+          ##Sleuth default probability is 10% or 0.1 
+          spring.sleuth.sampler.percentage=1.0
+
   3. application.properties:
-       <spring-app-name>.host.connect-timeout-millis=5000
-       specially for zuul API gateway server.
+       i) spring.zipkin.base-url=http://localhost:9411/
+      
+       ii) specially for zuul API gateway server configuration.
+         <spring-app-name01>.host.connect-timeout-millis=5000
+	 <spring-app-name02>.host.connect-timeout-millis=6000
         
-    
-.
- 
+================ Further Reads ======
+1. https://dzone.com/articles/microservices-part-6-distributed-tracing-with-spri
     
     
     
