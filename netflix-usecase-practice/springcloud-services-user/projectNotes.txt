@@ -1,0 +1,13 @@
+
+
+
+
+
+Actuator api endpoints
+1. /health
+2. /beans
+3. /env
+4. /metrics
+5. /mappings
+6. /trace
+

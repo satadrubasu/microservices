@@ -1,0 +1,17 @@
+Other Notes
+1. H2 DB console is available at the same port
+   http://localhost:<server.port>/h2-console
+   
+    Make sure that you set JDBC URL as :
+     
+    jdbc:h2:mem:testdb
+
+
+
+CURL Commands if not Using POSTMAN
+------------------------------------
+1. curl -X GET -i http://localhost:7080/v1/users
+
+2. Note the -H Content-Type is import to reach the controller mapping.
+curl -X POST -H 'Content-Type: application/json' -i http://localhost:7080/v1/users --data '{"firstName":"Emily","lastName":"Pardesi","emailId":"email@email.com","password":"password"}'
+

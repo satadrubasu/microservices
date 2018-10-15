@@ -1,0 +1,17 @@
+Eureka Naming Server
+
+1.https://www.in28minutes.com/spring-boot-maven-eclipse-troubleshooting-guide-and-faq
+  a) Force Update of Snapshots/Release
+     
+  b) Purge Your Maven Repository
+    run the maven goal -->  dependency:purge-local-repository
+    
+2. use the compatible versions of spring cloud and boot else its a mess(pom.xml)
+   spring boot -  1.5.2.RELEASE
+   spring cloud  -  Dalston.RELEASE
+   
+3. Sprint initalzr
+   actuator / spring config client / eureka server
+
+
+  

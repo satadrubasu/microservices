@@ -1,0 +1,41 @@
+
+1. https://www.in28minutes.com/spring-boot-maven-eclipse-troubleshooting-guide-and-faq
+  a) Force Update of Snapshots/Release
+      Right click on your project -> Maven -> Update Project -> Use “Force Update of Snapshots/Releases” -> Check this checkbox
+
+  b) Purge Your Maven Repository
+     Inside Eclipse - Right click on the project > Run as Maven Build > dependency:purge-local-repository
+
+      From Command Prompt cd to the project of the folder
+        mvn dependency:purge-local-repository
+        
+ 2. How to call a Service behind proxy
+    i) http://<proxyhost>:<proxyPort>/<springAppNameOfService>/<urlcontext>
+      
+      In this case: 
+      http://localhost:9090/cloud-user-service/v1/users
+      
+      Direct Call to Service:
+      http://localhost:7080/v1/users
+  
+ 3. CURL command sample :
+ 
+   curl -X GET -H 'Content-Type: application/json' -i http://localhost:9090/cloud-user-service/v1/users
+
+ 4. Zuul routes configuration (https://howtodoinjava.com/spring-cloud/spring-cloud-api-gateway-zuul/)
+
+     Open application.properties and add below entries-
+     #Zuul routes. Here for /student path, we are routing to localhost:8090 with extra path after that.
+     zuul.routes.student.url=http://localhost:8090
+ 
+     #Ribbon is auto integrated with Zuul and for this exercise we are not using that.
+     ribbon.eureka.enabled=false
+      
+    Here zuul.routes.student.url will route all traffic to request for /student to the actual student service server. This way we can add route to other services as well.
+    ribbon.eureka.enabled is auto integrated with Zuul.
+    server.port – is needed to override the default port, as we will have multiple instances of different microservices will run in localhost.   
+   
+    *** But if we choose to use the default ribbon provided follow point 2 above. We will need to add the service name in the context and not provide any route related configuration
+    
+   
+  
