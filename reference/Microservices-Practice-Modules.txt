@@ -85,7 +85,7 @@ Module 6: FEIGN Template ( Netflix ) Rest API calls
              ** note the return type is an TransferBeanType Entity similar to employee Entity
                   Payroll Entity has all same attributes as Employee Entity ( same naming of variables )
    
-Module 6: RIBBON for **CLIENT SIDE** Load balancing
+Module 7: RIBBON for **CLIENT SIDE** Load balancing
           RIBBON cannot pick dynamic servers which are active/inactive -Eureka solves in next mod
           Say 2 instances of employee-Service , we dont need to hardcode the host in the 
            @FeignClient(name="employee-service",url="http://localhost:8060") -- this will now change
@@ -113,7 +113,7 @@ Module 6: RIBBON for **CLIENT SIDE** Load balancing
                    .. empResponse.setPort(env.getProperty("local.server.port"));
 		      
 
-Module 7: EUREKA - Naming Discovery Server
+Module 8: EUREKA - Naming Discovery Server
           i) spring initialzr -> eureka-server,actuator,devtool,config client
 	  ii) Update spring boot version ( 1.5.2.RELEASE ) / Spring cloud (Dalston.RELEASE)
                version artifact name is: ( not the netflix version in Dalston )
@@ -135,6 +135,10 @@ Module 7: EUREKA - Naming Discovery Server
 		
              c) application.properties
                  eureka.client.service-url.default-zone= http://localhost:8050/eureka
+		 
+                 also we no longer nee to keep the 
+                   role-service.ribbon.list-of-servers  etc can be eliminated
+                  Ribbon CLinet is integrated with eureka server to fetch services based of the service name.
 
 Module 8: ZUUL API Gateway
           SLEUTH - How API gateway can also provide cross-cutting functionalities like Logging filters ( pre )
