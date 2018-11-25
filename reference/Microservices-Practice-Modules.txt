@@ -35,7 +35,17 @@ Module 3:  Create microservice -> employee-service
            
      
 Module 4: Create microservice -> role-service
-Module 5: Create composite microservice -> employee-payroll-service
+             - RoleRepository custom findByroleName()
+               public Role findByRoleName(String roleName);
+	       
+	     - http://localhost:8061/h2-console
+                jdbc:h2:mem:testdb
+      
+Module 5: Create composite microservice -> payroll-service
+           - insert to payroll table with if valid employee and role fetched
+	   - Payroll Model also has payrollId
+	   
+	   
 Module 6: FEIGN Template ( Netflix ) Rest API calls
 Module 6: RIBBON for Load balancing
 Module 7: EUREKA for Naming Discovery Servier
