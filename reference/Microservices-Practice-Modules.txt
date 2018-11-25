@@ -85,7 +85,24 @@ Module 6: FEIGN Template ( Netflix ) Rest API calls
              ** note the return type is an TransferBeanType Entity similar to employee Entity
                   Payroll Entity has all same attributes as Employee Entity ( same naming of variables )
    
-Module 6: RIBBON for Load balancing
+Module 6: RIBBON for **CLIENT SIDE** Load balancing
+          Say 2 instances of employee-Service , we dont need to hardcode the host in the 
+           @FeignClient(name="employee-service",url="http://localhost:8060") -- this will now change
+	   
+	   i) pom dependency addition
+               <groupId>org.springframework.cloud</groupId>
+               <artifactId>spring-cloud-starter-ribbon</artifactId>
+	   
+           ii) Feign Client change
+               @FeignClient(name="employee-service") // no more URL
+               @RibbonClient(name="employee-service")
+	       public interface EmployeeServiceFeignClient {
+        
+	   iii) application.properties ( list of servers)
+                employee-service.ribbon.listOfServers=http://localhost:8060,http://localhost:8160
+		role-service.ribbon.listOfServers=http://localhost:8061,http://localhost:8161
+   
+
 Module 7: EUREKA for Naming Discovery Servier
 Module 8: ZUUL API Gateway
           SLEUTH - How API gateway can also provide cross-cutting functionalities like Logging filters ( pre )
