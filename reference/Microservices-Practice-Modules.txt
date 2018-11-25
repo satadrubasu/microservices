@@ -140,7 +140,7 @@ Module 8: EUREKA - Naming Discovery Server
                    role-service.ribbon.list-of-servers  etc can be eliminated
                   Ribbon CLinet is integrated with eureka server to fetch services based of the service name.
 
-Module 8: ZUUL API Gateway
+Module 9: ZUUL API Gateway
           SLEUTH - How API gateway can also provide cross-cutting functionalities like Logging filters ( pre )
 	  i) spring initializr - actuator/devtools/zuul/eureka discovery
 	  ii) version boot 1.5.2.RELEASE / cloud - Dalston.RELEASE
@@ -176,6 +176,18 @@ Module 8: ZUUL API Gateway
 	      http://localhost:7040/role-service/role/hr
                      instead of
               http://localhost:7061/role/hr
+	      
+	 vii) Making one MS call another MS via zuul ( e.g payroll-service to call role-service / employee-service )
+	     a)  Feign Client change
+               XX  @FeignClient(name="employee-service") // no more talk to service directly but via Zuul
+	       @FeignClient(name="zuul-edge-server") // no more talk to service directly but via Zuul
+               @RibbonClient(name="employee-service")
+	       public interface EmployeeServiceFeignClient {
+  
+	       @GetMapping("/employee-service/employee/{empId}") // here prefix with the service name now
+	        public Payroll getEmployeeDetails(@PathVariable("empId") Long empId);
+		 ..
+		 
 	  
 Module 9: ZIPKIN server for Distributed Tracing
           SLEUTH - SERVICE_NAME,SPANID,CORRELATIONID,false
