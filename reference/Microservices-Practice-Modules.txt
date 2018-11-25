@@ -17,7 +17,7 @@ Module 3:  Create microservice -> employee-service
         3) - Use JPA and mark the Model ans entity Bean
               @Entity
               @Column(name="column_name) / @Id
-              constructor with fields
+              constructor with fields + default constructor
            
            - Create an Interface - Employee Repository
              public interface EmployeeRepository extends JpaRepository<Employee,Long> {}
@@ -34,9 +34,9 @@ Module 3:  Create microservice -> employee-service
 
            
      
-Module 3: Create microservice -> role-service
-Module 4: Create composite microservice -> employee-payroll-service
-Module 5: FEIGN Template ( Netflix ) Rest API calls
+Module 4: Create microservice -> role-service
+Module 5: Create composite microservice -> employee-payroll-service
+Module 6: FEIGN Template ( Netflix ) Rest API calls
 Module 6: RIBBON for Load balancing
 Module 7: EUREKA for Naming Discovery Servier
 Module 8: ZUUL API Gateway
