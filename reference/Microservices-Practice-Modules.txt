@@ -319,9 +319,31 @@ Module 12: Spring Cloud Config Server
 	     
 	  ii) for the Microservice projects(role-service / employee-service )  update the bootstrap.properties with:
 	      spring.profiles.active=dev
+	      
+Module 13: Spring Cloud Config BUS
+     ( There are scenarios when with the gitconfig employee-service-dev.properties was comitted ,still the change doesnt reflect in the employee-service application)
+     a) need to send an empty post request to the refresh endpoint exposed by Actuator
+     
+     b) sensitive endpoints of actuator need to be enabled.
+         employee-service.properties: 
+	   management.security.enabled=false
+	   
+     c) all Instances need to be hit with the refresh URL : http://locahsot:8060/refresh
+         [ Problem statement solved by using Spring Cloud Bus ]
 	
-
-           
+     d) SPRING CLOUD BUS - RABBIT MQ
+        
+	i) Update pom.xml for employee-service to include dependency:
+        
+	        <groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-bus-amqp</artifactId> 
+	
+	ii) RabbitMQ : http://localhost:15672  ( guest/guest)
+	
+	iii) Now refresh but via the BUS which will broadcast to all instances of employee-service
+	     http://localhost:8060/bus/refresh  // note the 'bus' added prior refresh of the actuator
+		
+       
            
            
            Order of Spawning the Microservices for all purposes
