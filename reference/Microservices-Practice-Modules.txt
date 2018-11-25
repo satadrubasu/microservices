@@ -113,7 +113,7 @@ Module 7: RIBBON for **CLIENT SIDE** Load balancing
                    .. empResponse.setPort(env.getProperty("local.server.port"));
 		      
 
-Module 8: EUREKA - Naming Discovery Server
+Module 8: EUREKA - Naming Discovery Server [use PORT 8761 ] Otherwise some problems..
           i) spring initialzr -> eureka-server,actuator,devtool,config client
 	  ii) Update spring boot version ( 1.5.2.RELEASE ) / Spring cloud (Dalston.RELEASE)
                version artifact name is: ( not the netflix version in Dalston )
@@ -121,7 +121,7 @@ Module 8: EUREKA - Naming Discovery Server
 		 
           iv) application.properties
              spring.application.name=eureka-server
-             server.port=8050
+             server.port=8761
 	     eureka.client.register-with-eureka=false  // dont register server with itself as a client ( boot app )
 	     eureka.client.fetch-registry=false
 	     
@@ -152,7 +152,7 @@ Module 9: ZUUL API Gateway
 	  iv) application.properties
               spring.application.name-zuul-edge-server
 	      server.port=7040
-	      eureka.client.service-url.default-zone=http://localhost:7050/eureka
+	      eureka.client.service-url.default-zone=http://localhost:8761/eureka
 	      
 	  v) Cross Cutting functionality ZuulLogginFilter
 	  
