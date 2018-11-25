@@ -44,6 +44,24 @@ Module 4: Create microservice -> role-service
 Module 5: Create composite microservice -> payroll-service
            - insert to payroll table with if valid employee and role fetched
 	   - Payroll Model also has payrollId
+	 4)  - Rest Templates.
+	     - payroll ID marked as @GeneratedValue
+	     - employee service and role service are called using the RestTemplate.getForEntity()
+               ( important to kee same naming comvention in the payroll Entity to create right mapping )
+               So payroll Entity is close to the role and employee entity attribute naming wise.
+               ======================
+	        ResponseEntity<Payroll> forEmpEntity = new RestTemplate().getForEntity(
+				"http://localhost:8060/employee/{empId}",Payroll.class,empId);
+		Payroll empPayroll = forEmpEntity.getBody();
+		
+		ResponseEntity<Payroll> forRoleEntity = new RestTemplate().getForEntity(
+				"http://localhost:8061/role/{roleName}",Payroll.class,roleName);
+		
+		empPayroll.setRoleId(forRoleEntity.getBody().getRoleId());
+		empPayroll.setRoleName(forRoleEntity.getBody().getRoleName());
+		empPayroll.setRoleDescription(forRoleEntity.getBody().getRoleDescription());
+		payrollRepository.save(empPayroll);
+               =======================
 	   
 	   
 Module 6: FEIGN Template ( Netflix ) Rest API calls
