@@ -4,7 +4,33 @@ Module Summary Notes practice
 Module 1: Main Microservices Architecture and tools needed
    
 
-Module 2:  Create microservice -> employee-service 
+Module 3:  Create microservice -> employee-service 
+        1) https://start.spring.io/ ( Spring initializr )
+          - Web/JPA/H2/Config-client/actuator/devtools
+          - Update Pom for boot and cloud version compatibility
+             Spring boot starter - 1.5.2.Release
+             Spring cloud        - Dalston.RELEASE
+     
+        2) @RestController / @GetMapping / @PathVariable
+           Controller and Model class --EmployeeController & Employee
+           
+        3) - Use JPA and mark the Model ans entity Bean
+              @Entity
+              @Column(name="column_name) / @Id
+              constructor with fields
+           
+           - Create an Interface - Employee Repository
+             public interface EmployeeRepository extends JpaRepository<Employee,Long> {}
+               Long represents the ID Field of the Entity
+               JpaRepository provides CRUD implementations
+           
+           - @GetMapping("/employee/{empId}")
+	             public Employee getEployeeDetails(@PathVariable Long empId)
+	                {
+	                	return employeeRepository.findOne(empId); 
+	                }
+
+           
      
 Module 3: Create microservice -> role-service
 Module 4: Create composite microservice -> employee-payroll-service
