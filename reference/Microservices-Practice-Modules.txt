@@ -86,6 +86,7 @@ Module 6: FEIGN Template ( Netflix ) Rest API calls
                   Payroll Entity has all same attributes as Employee Entity ( same naming of variables )
    
 Module 6: RIBBON for **CLIENT SIDE** Load balancing
+          RIBBON cannot pick dynamic servers which are active/inactive -Eureka solves in next mod
           Say 2 instances of employee-Service , we dont need to hardcode the host in the 
            @FeignClient(name="employee-service",url="http://localhost:8060") -- this will now change
 	   
@@ -101,9 +102,40 @@ Module 6: RIBBON for **CLIENT SIDE** Load balancing
 	   iii) application.properties ( list of servers)
                 employee-service.ribbon.listOfServers=http://localhost:8060,http://localhost:8160
 		role-service.ribbon.listOfServers=http://localhost:8061,http://localhost:8161
-   
+		
+          iv) a) for Employee entity add port as an attribute
+              b) for Payroll entity add port as an attribute ( so it maps to employee while fetching value)
+	      c) in data.sql add port as a column
+              d) Update the PayrollController to return type Long to capture port number instead of void for the POST
+	      e) For instances of employeeServiceController
+                   @Autowired
+                   Environment env;
+                   .. empResponse.setPort(env.getProperty("local.server.port"));
+		      
 
-Module 7: EUREKA for Naming Discovery Servier
+Module 7: EUREKA - Naming Discovery Server
+          i) spring initialzr -> eureka-server,actuator,devtool,config client
+	  ii) Update spring boot version ( 1.5.2.RELEASE ) / Spring cloud (Dalston.RELEASE)
+               version artifact name is: ( not the netflix version in Dalston )
+                 <artifactId>spring-cloud-starter-eureka-server</artifactId>
+		 
+          iv) application.properties
+             spring.application.name=eureka-server
+             server.port=8050
+	     eureka.client.register-with-eureka=false  // dont register server with itself as a client ( boot app )
+	     eureka.client.fetch-registry=false
+	     
+	  v) @EnableEurekaServer in spring boot main class
+	  
+	  vi) CLIENT SIDE CONFIGURATION to register to eureka
+	     a) Client boot app update pom:
+                <artifactId>spring-cloud-starter-eureka</artifactId>
+             b) Register Client Spring boot main app to Eureka Server
+                @EnableDiscoveryClient in the main class
+		
+             c) application.properties
+                 eureka.client.service-url.default-zone= http://localhost:8050/eureka
+
 Module 8: ZUUL API Gateway
           SLEUTH - How API gateway can also provide cross-cutting functionalities like Logging filters ( pre )
 Module 9: ZIPKIN server for Distributed Tracing
