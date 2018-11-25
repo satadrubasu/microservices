@@ -189,8 +189,45 @@ Module 9: ZUUL API Gateway
 		 ..
 		 
 	  
-Module 9: ZIPKIN server for Distributed Tracing
-          SLEUTH - SERVICE_NAME,SPANID,CORRELATIONID,false
+Module 10: Distributed Tracing :  SLEUTH  + ZIPKIN server
+             SLEUTH - SERVICE_NAME,SPANID,CORRELATIONID,false
+	     
+	     MS Clients configuration ( ROLE-service / employee-service / payroll-service )
+	     -------------------------
+	  i) POM dependency:
+  	        <groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-sleuth</artifactId>  // to generate sleuth based logging
+		
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-sleuth-zipkin</artifactId>  // to send logs to Zipkin Server
+             
+
+         ii) Each service to have its corresponding Logging which gets added with sleuth
+	      In the Spring Boot App add SAMPLER code
+	      @Bean
+	      public AlwaysSampler alwaysSampler()
+	       { return new AlwaysSampler() };
+
+          Zipkin Server:
+	  --------------
+	  i) ZIPKIN Server (port 9411 )- centralized server for all logs (Sleuth pushes to zipkin server if configured)
+	     dependencies to be added manually ( not available in initializer ) ( Zipkin UI & Zipkin Server ) + config client
+	     a) version update to dalston and 1.5.2 as modules above
+	     b)   <groupId>io.zipkin.java</groupId>
+                   <artifactId>zipkin-server</artifactId>
+	       
+	          <groupId>io.zipkin.java</groupId>
+                   <artifactId>zipkin-autoconfigure-ui</artifactId>
+	  
+	  ii) application.properties
+              spring.application.name=zipkin-server
+              server.port=9411  
+	      
+	  iii) @EnableZipkinServer to the spring boot app
+       
+	     
+               
+	  
 Module 10: HYSTRIX for Fault tolerance
 Module 11: Spring Cloud Config Server
            Spring Cloud BUS
