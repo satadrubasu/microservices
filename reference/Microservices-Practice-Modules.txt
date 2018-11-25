@@ -154,6 +154,11 @@ Module 9: ZUUL API Gateway
 	      server.port=7040
 	      eureka.client.service-url.default-zone=http://localhost:8761/eureka
 	      
+	      zuul-edge-server.host.connect-timeout-millis=5000
+	      zuul-edge-server.host.socket-timeout-millis=5000
+	      hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=10000
+	      
+	      
 	  v) Cross Cutting functionality ZuulLogginFilter
 	  
 	     @Component
@@ -208,7 +213,7 @@ Module 10: Distributed Tracing :  SLEUTH  + ZIPKIN server
 	      public AlwaysSampler alwaysSampler()
 	       { return new AlwaysSampler() };
 
-          Zipkin Server:
+          Zipkin Server: ( UI http://localhost:9411/zipkin )
 	  --------------
 	  i) ZIPKIN Server (port 9411 )- centralized server for all logs (Sleuth pushes to zipkin server if configured)
 	     dependencies to be added manually ( not available in initializer ) ( Zipkin UI & Zipkin Server ) + config client
@@ -228,8 +233,8 @@ Module 10: Distributed Tracing :  SLEUTH  + ZIPKIN server
 	     
                
 	  
-Module 10: HYSTRIX for Fault tolerance
-Module 11: Spring Cloud Config Server
+Module 11: HYSTRIX for Fault tolerance
+Module 12: Spring Cloud Config Server
            Spring Cloud BUS
 
            
