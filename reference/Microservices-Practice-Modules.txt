@@ -142,6 +142,37 @@ Module 8: EUREKA - Naming Discovery Server
 
 Module 8: ZUUL API Gateway
           SLEUTH - How API gateway can also provide cross-cutting functionalities like Logging filters ( pre )
+	  i) spring initializr - actuator/devtools/zuul/eureka discovery
+	  ii) version boot 1.5.2.RELEASE / cloud - Dalston.RELEASE
+              remove the netflix version artifacts for zuul/eureka discovery like Module 7.
+	      
+	 iii) @EnableZuulProxy  ( to the main spring boot application )
+              @EnableDiscoveryClient ( to register with eureka )
+	     
+	  iv) application.properties
+              spring.application.name-zuul-edge-server
+	      server.port=7040
+	      eureka.client.service-url.default-zone=http://localhost:7050/eureka
+	      
+	  v) Cross Cutting functionality ZuulLogginFilter
+	  
+	     @Component
+	     class ZuulLoggingFilter extends ZuulFilter {
+	     private static Logger log = LoggerFactory.getLogger(ZuulLoggingFilter.class);
+	     @Override
+	       boolean shouldFilter(){ return true; }
+	       String FilterType(){ return "pre";} // Pre Route / Post route / Error / Route
+	       Object run() throws ZuulException // core logic
+                { RequestContext rctx = RequestContext.getCurrentContext();
+		  HttpServletRequest req = ctx.getRequest();
+		  log.info(req.getMethod  + req.getRequestURL());
+		  retun null;
+		  }
+	       
+	       int FilterOrder(){ return 1;  }
+	     }
+	      
+	  
 Module 9: ZIPKIN server for Distributed Tracing
           SLEUTH - SERVICE_NAME,SPANID,CORRELATIONID,false
 Module 10: HYSTRIX for Fault tolerance
