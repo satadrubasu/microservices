@@ -230,12 +230,96 @@ Module 10: Distributed Tracing :  SLEUTH  + ZIPKIN server
 	      
 	  iii) @EnableZipkinServer to the spring boot app
        
-	     
-               
 	  
-Module 11: HYSTRIX for Fault tolerance
+Module 11: HYSTRIX for Fault tolerance ( E.g If Role-service is down and Payroll-service was called )
+       i) Pom Dependency:
+                <groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-hystrix</artifactId> 
+		
+        ii) CONTROLLER Classes to be annotated with 
+	    @EnableHystrix   // emulate by throwing a runtime exception from a method
+	    @RestController 
+	
+       iii) @HystrixCommand(fallbackMethod="fallbackEmployeeDetails")   annotation on the method throwing runtimeexception
+            @GetMapping("/employee/{empId}")
+	    public Employee getEmployeeDetailsFaultTolerant(@PathVariable Long empId)
+	     { ....
+	     
+	    public Employee fallbackEmployeeDetails()
+	     {  return new Employee('defaultUserFirstname','defaultEmpId','','').... 
+	    
+
 Module 12: Spring Cloud Config Server
            Spring Cloud BUS
+         If configuration changes we need to redeploy by changing the application.properties etc , to overcome this challenge.
+	a) Config server provides the rest endpoints and also maintains configs based of application name ( employee-service/role-service )
+	b) actuator - any changes done on the config , actuator monitors them and reflects them in respective microservice
+	
+	i) Dependencies : config-server / devtools
+	ii) @EnableConfigServer  in the spring boot main
+	iii) application.properties
+	     spring.application.name=config-server
+	     server.port=8888
+	     spring.cloud.config.server.git.url=file:\\\\d:\configFolder
+	
+	     
+	iv) create a new Folder in the project say configFolder
+	    Link it to a alternate location ( which is a git config folder --> d:\configFolder)
+	    
+	How to Use Config Values in Spring Boot microservice ( from application.properties )   
+	------------------------------------------
+	i) application.properties:  ( traditionally loading properties by using @Value)
+	   employee-service.defaultFirstName=firstName
+	   employee-service.defaultLastName=lastName
+	    
+        ii) create a bean which reads these properties out of the prefix ( employee-service )
+	
+	   @ConfgurationProperties(prefix="employee-service")
+	   @Component    // manage by spring boot so can be autowired
+	   public class EmployeeConfiguration
+	     {   private string defaultFirstName;    // getters and setters
+	         private string defaultLastName;
+		  ..
+	      }
+	        
+       iii) Now in the Controller Class
+           @Autowired
+	   EmployeeCOnfiguration empConfiguration;
+	   
+	   empConfiguration.getDefaultFirstName(); .....
+		   
+	 How to Use Config Values in Spring Boot microservice from the config server 
+	 ---------------------------------------------------------------------------
+	 i) in the linked Git folder create employee-service.properties  ( Spring Cloud Config Server project )
+             Note config server uses the spring.application.name to fetch relevant configs from config erver
+	 
+	 ii) employee-service.properties     ( Spring Cloud Config Server project )
+	       employee-service.defaultFirstName=firstName
+	       employee-service.defaultLastName=lastName
+	       
+	 iii) Hit Rest endpoint on the COnfig server to get values read from employee-service.properties.
+	      http://localhost:8888/employee-service/default    // use the default ( uses default profile )
+	                                                        // profiles can define envs QA/DEV/PROD
+								
+	 iv) Rename application.properties to bootstrap.properties ( for Microservice Projects )
+	 
+	 v) remove the following from application.properties ( for Microservice Projects )
+	     employee-service.defaultFirstName=firstName
+	     employee-service.defaultLastName=lastName
+	     
+	 vi) update the server endpoint in bootstrap.properties ( for Microservice Projects )
+	     spring.cloud.config.url=http://localhost:8888
+	     
+	 How to Use Config Server for profile based configs
+	 ---------------------------------------------------------------------------
+	 i) in the git shared folder location update files like : ( and commit  - Config Server project)
+	     employee-service-dev.properties
+	     employee-service-qa.properties
+	     employee-service.properties
+	     
+	  ii) for the Microservice projects(role-service / employee-service )  update the bootstrap.properties with:
+	      spring.profiles.active=dev
+	
 
            
            
