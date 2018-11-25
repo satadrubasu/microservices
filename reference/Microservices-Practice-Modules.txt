@@ -65,6 +65,26 @@ Module 5: Create composite microservice -> payroll-service
 	   
 	   
 Module 6: FEIGN Template ( Netflix ) Rest API calls
+         Feign integrates with Ribbon and Eureka
+
+        i) add spring dependency in pom :
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-starter-feign</artifactId>
+
+        ii) Update BootMain Application with 
+             @EnableFeignClients("com.ansa.payroll")  // package to scan for feign clients
+
+	iii) Make a Feign Client Interface - which will replace the Rest Template
+             
+             @FeignClient(name="employee-service",url="http://localhost:8060")
+             public interface EmployeeServiceFeignTemplate {
+		@GetMapping("/employee/{empId}")
+	        public Payroll getEmployeeDetails(@PathVariable("empId") Long empId);
+                }
+             ** note the @PathVariable("empId")
+             ** note the return type is an TransferBeanType Entity similar to employee Entity
+                  Payroll Entity has all same attributes as Employee Entity ( same naming of variables )
+   
 Module 6: RIBBON for Load balancing
 Module 7: EUREKA for Naming Discovery Servier
 Module 8: ZUUL API Gateway
