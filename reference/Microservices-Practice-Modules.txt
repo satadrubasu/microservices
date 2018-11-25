@@ -172,6 +172,10 @@ Module 8: ZUUL API Gateway
 	       int FilterOrder(){ return 1;  }
 	     }
 	      
+	  vi) to call the service via zuul gateway redirect via zuul server port and then the underlying service name
+	      http://localhost:7040/role-service/role/hr
+                     instead of
+              http://localhost:7061/role/hr
 	  
 Module 9: ZIPKIN server for Distributed Tracing
           SLEUTH - SERVICE_NAME,SPANID,CORRELATIONID,false
