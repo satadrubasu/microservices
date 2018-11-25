@@ -29,6 +29,8 @@ Module 3:  Create microservice -> employee-service
 	                {
 	                	return employeeRepository.findOne(empId); 
 	                }
+        4) data.sql with insert query to load into H2 DB
+            insert into employee (emp_id,first_name,last_name,date_of_joining) values (101,'F001','L001',sysdate());
 
            
      
